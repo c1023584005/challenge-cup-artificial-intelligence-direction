@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>视频播放</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-image: url('images/background.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            font-family: Arial, sans-serif;
+            color: white;
+        }
+        
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.6);
+            z-index: -1;
+        }
+        
+        .header {
+            background-color: rgba(93, 74, 138, 0.8);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+        }
+        
+        .logo {
+            color: white;
+            font-size: 24px;
+            font-weight: bold;
+            text-decoration: none;
+        }
+        
+        .main-content {
+            display: flex;
+            flex-direction: row;
+            padding: 20px;
+            min-height: calc(100vh - 200px);
+            gap: 20px;
+        }
+        
+        .left-section {
+            flex: 2;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .right-section {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .video-frame {
+            width: 100%;
+            background-color: #000;
+            position: relative;
+            overflow: hidden;
+            border-radius: 8px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.5);
+            padding-top: 56.25%;
+        }
+        
+        .video-frame video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+        
+        .video-info {
+            background-color: rgba(40, 40, 40, 0.7);
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.3);
+            margin-bottom: 20px;
+            height: 100%;
+            overflow-y: auto;
+        }
+        
+        .video-title {
+            font-size: 22px;
+            margin-bottom: 15px;
+            color: #e74c3c;
+        }
+        
+        .video-description {
+            line-height: 1.6;
+        }
+        
+        .control-dots {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin: 15px 0;
+        }
+        
+        .dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background-color: white;
+        }
+        
+        .dot.active {
+            background-color: #e74c3c;
+        }
+        
+        .progress-container {
+            width: 100%;
+            height: 8px;
+            background-color: rgba(255,255,255,0.2);
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 15px 0;
+        }
+        
+        .progress-bar {
+            height: 100%;
+            background-color: #e74c3c;
+            border-radius: 4px;
+            width: 0%;
+        }
+        
+        .player-controls {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background-color: rgba(34, 34, 34, 0.9);
+            backdrop-filter: blur(10px);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.3);
+        }
+        
+        .episode-info {
+            display: flex;
+            align-items: center;
+        }
+        
+        .episode-thumbnail {
+            width: 40px;
+            height: 40px;
+            background-color: #5d4a8a;
+            margin-right: 10px;
+            border-radius: 4px;
+        }
+        
+        .episode-title {
+            font-weight: bold;
+        }
+        
+        .controls {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .time-control {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .play-button {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: #e74c3c;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            border: none;
+            color: white;
+            font-size: 18px;
+        }
+        
+        .time-display {
+            font-size: 14px;
+            color: #aaa;
+        }
+        
+        .volume-control {
+            margin-left: 15px;
+        }
+        
+        .back-to-top {
+            background-color: #e74c3c;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 4px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-decoration: none;
+            font-size: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <a href="首页.html" class="logo"> 视频播放</a>
+    </div>
+    
+    <div class="main-content">
+        <div class="left-section">
+            <div class="video-frame">
+                <video id="videoPlayer">
+                    <source src="video/2.mp4" type="video/mp4">
+                    您的浏览器不支持视频播放。
+                </video>
+            </div>
+            
+            <div class="control-dots">
+                <div class="dot active"></div>
+                <div class="dot"></div>
+                <div class="dot"></div>
+                <div class="dot"></div>
+                <div class="dot"></div>
+            </div>
+            
+            <div class="progress-container" id="progressContainer">
+                <div class="progress-bar" id="progressBar"></div>
+            </div>
+        </div>
+        
+        <div class="right-section">
+            <div class="video-info">
+                <h2 class="video-title"> AI还原历史瞬间：跨越百年见证真实时刻！</h2>
+                
+                <div class="video-description">
+        这段视频使用AI视觉重建技术，真实还原了历史中的关键场景。从图像建模到动态合成，每一帧都力求还原当年的真实气息。<br />
+        无论是街道、人物、还是情绪表情，AI正用新的方式帮我们“看见”过去。
+
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="player-controls">
+        <div class="episode-info">
+            <div class="episode-thumbnail"></div>
+            <div class="episode-title"> AI还原历史瞬间：跨越百年见证真实时刻！</div>
+        </div>
+        
+        <div class="controls">
+            <div class="time-control">
+                <button class="play-button" id="playBtn">▶</button>
+                <span class="time-display" id="currentTime">00:00</span>
+                <span class="time-display">/</span>
+                <span class="time-display" id="duration">00:00</span>
+            </div>
+            <div class="volume-control">
+                <span>🔊</span>
+            </div>
+        </div>
+		 <a href="#" class="back-to-top">↑</a>
+    </div>
+    
+    <script>
+        const video = document.getElementById('videoPlayer');
+        const playBtn = document.getElementById('playBtn');
+        const progressBar = document.getElementById('progressBar');
+        const progressContainer = document.getElementById('progressContainer');
+        const currentTimeDisplay = document.getElementById('currentTime');
+        const durationDisplay = document.getElementById('duration');
+        video.removeAttribute('controls');
+        playBtn.addEventListener('click', () => {
+            if (video.paused) {
+                video.play();
+                playBtn.innerHTML = '❚❚';
+            } else {
+                video.pause();
+                playBtn.innerHTML = '▶';
+            }
+        });
+        video.addEventListener('timeupdate', () => {
+            const percent = (video.currentTime / video.duration) * 100;
+            progressBar.style.width = percent + '%';
+            
+            const currentMinutes = Math.floor(video.currentTime / 60);
+            const currentSeconds = Math.floor(video.currentTime % 60);
+            currentTimeDisplay.textContent = `${currentMinutes.toString().padStart(2, '0')}:${currentSeconds.toString().padStart(2, '0')}`;
+        });
+        video.addEventListener('loadedmetadata', () => {
+            const durationMinutes = Math.floor(video.duration / 60);
+            const durationSeconds = Math.floor(video.duration % 60);
+            durationDisplay.textContent = `${durationMinutes.toString().padStart(2, '0')}:${durationSeconds.toString().padStart(2, '0')}`;
+        });
+        progressContainer.addEventListener('click', (e) => {
+            const percent = e.offsetX / progressContainer.offsetWidth;
+            video.currentTime = percent * video.duration;
+        });
+    </script>
+</body>
+</html>

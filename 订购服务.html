@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>穿越时空 - 活化美育教育平台会员</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Microsoft YaHei", "PingFang SC", sans-serif;
+        }
+        
+        body {
+            background-color: #f7f8fa;
+            color: #333;
+            line-height: 1.6;
+        }
+        .navbar {
+            background-color: #0088ff;
+            color: white;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo img {
+            width: 30px;
+            height: 30px;
+            margin-right: 10px;
+            border-radius: 50%;
+            background-color: white;
+            padding: 3px;
+        }
+        
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            padding: 8px 15px;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+        
+        .nav-links a:hover {
+            background-color: rgba(255,255,255,0.2);
+        }
+        
+        .login-btn {
+            background-color: rgba(255,255,255,0.2);
+        }
+        .container {
+            max-width: 1000px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+        
+        .membership-card {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            padding: 30px;
+            margin-bottom: 30px;
+        }
+        .user-info {
+            display: flex;
+            align-items: center;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #eee;
+            margin-bottom: 20px;
+        }
+        
+        .user-avatar {
+            width: 60px;
+            height: 60px;
+            margin-right: 15px;
+        }
+        
+        .user-status h3 {
+            font-size: 18px;
+            font-weight: normal;
+            margin-bottom: 5px;
+        }
+        
+        .user-status p {
+            color: #999;
+            font-size: 14px;
+        }
+        .premium-card {
+            background-color: #222;
+            color: white;
+            border-radius: 8px;
+            padding: 25px;
+            margin: 20px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .premium-info {
+            flex: 1;
+        }
+        
+        .premium-tag {
+            display: inline-block;
+            background-color: #333;
+            color: #ccc;
+            padding: 3px 10px;
+            border-radius: 3px;
+            font-size: 13px;
+            margin-bottom: 15px;
+        }
+        
+        .premium-title {
+            font-size: 22px;
+            margin-bottom: 10px;
+        }
+        
+        .premium-desc {
+            color: #aaa;
+            font-size: 14px;
+        }
+        
+        .premium-logo {
+            background-color: #ffc107;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 28px;
+            font-weight: bold;
+        }
+        .annual-btn {
+            background-color: #4e6ef2;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 30px;
+            font-size: 15px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin: 15px 0;
+            display: inline-block;
+        }
+        
+        .annual-btn:hover {
+            background-color: #3d5ce0;
+        }
+        .membership-intro {
+            margin: 25px 0;
+        }
+        
+        .membership-intro h2 {
+            font-size: 20px;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        
+        .membership-intro p {
+            color: #666;
+            margin-bottom: 15px;
+        }
+        
+        .price-section {
+            margin: 30px 0;
+        }
+        
+        .current-price {
+            font-size: 28px;
+            font-weight: bold;
+            color: #333;
+        }
+        
+        .month-unit {
+            font-size: 16px;
+            color: #666;
+            font-weight: normal;
+        }
+        
+        .original-price {
+            text-decoration: line-through;
+            color: #999;
+            font-size: 16px;
+            margin-left: 10px;
+        }
+        
+        .coupon-info {
+            margin: 15px 0;
+            font-size: 14px;
+            color: #666;
+        }
+        
+        .coupon-link {
+            color: #0088ff;
+            text-decoration: none;
+        }
+        
+        .coupon-link:hover {
+            text-decoration: underline;
+        }
+        
+        .total-price {
+            margin: 20px 0;
+            font-size: 18px;
+        }
+        
+        .price-highlight {
+            color: #ff6600;
+            font-weight: bold;
+        }
+        .payment-options {
+            display: flex;
+            gap: 15px;
+            margin-top: 25px;
+        }
+        
+        .payment-option {
+            flex: 1;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            padding: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .payment-option:hover {
+            border-color: #0088ff;
+        }
+        
+        .payment-option.active {
+            background-color: #0088ff;
+            color: white;
+            border-color: #0088ff;
+        }
+        .benefits-section {
+            margin-top: 40px;
+            background-color: #f9f9f9;
+            padding: 20px;
+            border-radius: 8px;
+        }
+        
+        .benefits-title {
+            color: #0088ff;
+            margin-bottom: 15px;
+            font-size: 18px;
+        }
+        
+        .benefit-item {
+            margin-bottom: 8px;
+            color: #555;
+            font-size: 14px;
+            position: relative;
+            padding-left: 20px;
+        }
+        
+        .benefit-item::before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #0088ff;
+        }
+        
+        .footer-info {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+            text-align: center;
+            font-size: 14px;
+            color: #999;
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <div class="logo">
+            <img src="img/1.png" alt="Logo">
+            <h1>"穿越时空" —AI视频播客活化美育教学平台</h1>
+        </div>
+        <div class="nav-links">
+            <a href="#"><i class="fa fa-home"></i> 首页</a>
+            <a href="#" class="login-btn">登录</a>
+        </div>
+    </div>
+    <div class="container">
+        <div class="membership-card">
+ 
+            <div class="user-info">
+                <img src="img/9154ce21089d438c9b1b00ede06cb50d.png" alt="用户图标" class="user-avatar">
+                <div class="user-status">
+                    <h3>听众用户</h3>
+                    <p>会员权益尚未开通</p>
+                </div>
+            </div>
+            <div class="premium-card">
+                <div class="premium-info">
+                    <div class="premium-tag">未解锁</div>
+                    <h2 class="premium-title">活化美育教育平台会员</h2>
+                    <p class="premium-desc">限时优惠！成为会员即享有独家内容 & 特权！</p>
+                </div>
+                <div class="premium-logo">V</div>
+            </div>
+            <button class="annual-btn">开通年度会员可省 ¥50/月</button>
+            <div class="membership-intro">
+                <h2>活化美育教育平台会员</h2>
+                <p>无广告 + 独家内容 + 提前收听 + 社区互动 + 周边折扣</p>
+            </div>
+            <div class="price-section">
+                <div class="current-price">
+                    ¥39<span class="month-unit">/月</span>
+                    <span class="original-price">¥59/月</span>
+                </div>
+                
+                <div class="coupon-info">
+                    可用优惠券: <a href="#" class="coupon-link">首次订购立减10元</a>
+                </div>
+                
+                <div class="total-price">
+                    合计: <span class="price-highlight">¥ 39</span>
+                </div>
+            </div>
+            <div class="payment-options">
+                <div class="payment-option">
+                    <i class="fa fa-credit-card"></i> 信用卡支付
+                </div>
+                <div class="payment-option">
+                    <i class="fa fa-wechat"></i> 微信支付
+                </div>
+                <div class="payment-option active">
+                    <i class="fa fa-alipay"></i> 支付宝支付
+                </div>
+            </div>
+            <div class="benefits-section">
+                <h3 class="benefits-title">活化美育教育平台会员权益</h3>
+                <div class="benefit-item">畅享所有播客内容与特权</div>
+                <div class="benefit-item">无广告播放体验</div>
+                <div class="benefit-item">独家课程与教学内容</div>
+                <div class="benefit-item">提前收听最新内容</div>
+                <div class="benefit-item">参与社区互动讨论</div>
+                <div class="benefit-item">享受周边产品优惠</div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <title>AI播客平台实现成效</title>
+  <style>
+    :root {
+      --primary: #6b48ff;
+      --secondary: #00d9ff;
+      --dark: #0a0a1a;
+      --light: #ffffff;
+    }
+    
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      background-color: var(--dark);
+      color: var(--light);
+      overflow-x: hidden;
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem;
+    }
+    
+    header {
+      text-align: center;
+      padding: 4rem 0;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      margin-bottom: 3rem;
+      clip-path: polygon(0 0, 100% 0, 100% 85%, 0 100%);
+    }
+    
+    h1 {
+      font-size: 3rem;
+      margin: 0;
+      letter-spacing: 2px;
+      text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+    }
+    
+    .card-container {
+      display: grid;
+      grid-template-columns: repeat(1, 1fr);
+      gap: 3rem;
+    }
+    
+    .card {
+      position: relative;
+      background: rgba(255,255,255,0.05);
+      border-radius: 1rem;
+      padding: 2rem;
+      overflow: hidden;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+      transition: all 0.3s ease;
+    }
+    
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 5px;
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+    }
+    
+    .card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 15px 30px rgba(0,0,0,0.3);
+    }
+    
+    .card h2 {
+      font-size: 1.8rem;
+      margin-bottom: 1.5rem;
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    
+    .card p {
+      margin-bottom: 2rem;
+      line-height: 1.6;
+    }
+    
+    .image-gallery {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1rem;
+    }
+    
+    .image-wrapper {
+      position: relative;
+      overflow: hidden;
+      border-radius: 0.5rem;
+      aspect-ratio: 16/9;
+    }
+    
+    .image-wrapper img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s ease;
+    }
+    
+    .image-wrapper:hover img {
+      transform: scale(1.1);
+    }
+    
+    .image-wrapper::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(0,0,0,0.5), transparent);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    
+    .image-wrapper:hover::after {
+      opacity: 1;
+    }
+    
+    @media (min-width: 768px) {
+      .card-container {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    .card {
+      opacity: 0;
+      animation: fadeIn 0.8s forwards;
+    }
+    
+    .card:nth-child(1) { animation-delay: 0.1s; }
+    .card:nth-child(2) { animation-delay: 0.3s; }
+    .card:nth-child(3) { animation-delay: 0.5s; }
+    .card:nth-child(4) { animation-delay: 0.7s; }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container">
+      <h1>AI播客平台实现成效</h1>
+    </div>
+  </header>
+  
+  <div class="container">
+    <div class="card-container">
+      <div class="card">
+        <h2>解决产业痛点</h2>
+        <p>通过AI技术降低内容制作门槛，解决传统音视频制作成本高、周期长的问题，为教育行业提供高效内容生成方案，打破资源壁垒。</p>
+        <div class="image-gallery">
+          <div class="image-wrapper">
+            <img src="img/2.1.jpg" alt="产业痛点图示1">
+          </div>
+          <div class="image-wrapper">
+            <img src="img/2.2.jpg" alt="产业痛点图示2">
+          </div>
+        </div>
+      </div>
+      
+      <div class="card">
+        <h2>解决需求对接</h2>
+        <p>采用B2B+B2C双模式，为教育机构提供定制内容服务，同时面向C端用户建立专属播客平台，实现内容创作与分发的完整闭环。</p>
+        <div class="image-gallery">
+          <div class="image-wrapper">
+            <img src="img/2.3.png" alt="需求对接图示1">
+          </div>
+          <div class="image-wrapper">
+            <img src="img/2.4.png" alt="需求对接图示2">
+          </div>
+        </div>
+      </div>
+      
+      <div class="card">
+        <h2>解决需求匹配</h2>
+        <p>结合用户画像数据与AR/VR技术资源，实现内容个性化推荐与场景适配，提升播客内容的实用性与精准覆盖范围。</p>
+        <div class="image-gallery">
+          <div class="image-wrapper">
+            <img src="img/2.5.png" alt="需求匹配图示1">
+          </div>
+          <div class="image-wrapper">
+            <img src="img/2.6.png" alt="需求匹配图示2">
+          </div>
+        </div>
+      </div>
+      
+      <div class="card">
+        <h2>提升价值维度</h2>
+        <p>从教学效率、文化传承、知识传播、内容创新等多维度提升社会与商业价值，实现AI播客平台对教育行业的全方位赋能。</p>
+        <div class="image-gallery">
+          <div class="image-wrapper">
+            <img src="img/2.7.png" alt="价值维度图示1">
+          </div>
+          <div class="image-wrapper">
+            <img src="img/2.8.png" alt="价值维度图示2">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,1506 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>“穿越时空”—AI视频播客活化美育教学平台</title>
+    <link rel="stylesheet" href="css\bootstrap.min.css">
+	<link rel="stylesheet" href="css/button.css" />
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+		body {
+		  margin: 0;
+		  font-family: Arial, sans-serif;
+		}
+		body::before {
+		    content: '';
+		    position: fixed;
+		    top: 0;
+		    left: 0;
+		    width: 100%;
+		    height: 100%;
+		    background-image: url('img/mountain_background.jpg');
+		    background-size: cover;
+		    background-repeat: no-repeat; 
+		    background-attachment: fixed; 
+		    z-index: -1; 
+		}
+		.content-container {
+		    display: flex;
+		    flex-direction: column;
+		    align-items: center;
+		    justify-content: center;
+		    padding: 20px;
+		    text-align: center;
+		    color: #fff;
+		}
+		
+	
+		#main-title {
+		    font-size: 3em;
+		    font-weight: bold;
+		    margin-bottom: 20px;
+		}
+		
+		
+		#button {
+		    background-color: transparent;
+		    border: 2px solid #fff;
+		    color: #fff;
+		    padding: 10px 20px;
+		    border-radius: 25px;
+		    cursor: pointer;
+		    font-size: 1.2em;
+		    transition: background-color 0.3s ease;
+		}
+		
+		#button:hover {
+		    background-color: rgba(255, 255, 255, 0.1);
+		}
+		
+
+		.card-grid {
+		    display: flex;
+		    justify-content: space-around;
+		    margin-top: 50px;
+		}
+		
+		.card {
+		    background-color: rgba(0, 0, 0, 0.8);
+		    padding: 20px;
+		    border-radius: 10px;
+		    width: 30%;
+		    text-align: center;
+		    color: #fff;
+		    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+		}
+		
+		.card h2 {
+		    font-size: 1.5em;
+		    margin-bottom: 10px;
+		}
+		
+		.card span {
+		    font-size: 1.2em;
+		    color: #ffcc00; 
+		}
+		
+		.card hr {
+		    border: none;
+		    border-bottom: 1px dashed #fff;
+		    margin: 10px 0;
+		}
+		
+		.card p {
+		    font-size: 1em;
+		}
+
+		#nav {
+		    position: relative;
+		    border: none;
+		    border-radius: 10em;
+		    display: flex;
+		    list-style: none;
+		    background: #f5f5f5;
+		    box-shadow: 20px 40px 40px rgba(0, 0, 0, 0.3);
+		    padding: 10px;
+		    justify-content: center;
+		}
+		#nav li a {
+		    position: relative;
+		    padding: 15px 50px;
+		    font: 500 24px '优设标题黑', sans-serif;
+		    border: none;
+		    outline: none;
+		    color: rgb(70, 100, 180);
+		    display: inline-block;
+		    text-decoration: none;
+		    z-index: 3;
+		}
+		#nav li a:hover {
+		    background: #4CAF50;
+		    color: white;
+		}
+		.slide1,
+		.slide2 {
+		    position: absolute;
+		    display: inline-block;
+		    height: 60px;
+		    border-radius: 10em;
+		    transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1.05);
+		}
+		.slide1 {
+		    background-color: rgb(170, 190, 255);
+		    z-index: 2;
+		}
+		.slide2 {
+		    opacity: 0;
+		    background-color: rgba(170, 190, 255, 0.5);
+		    z-index: 1;
+		    box-shadow: 0 0 20px #ffffffaa inset;
+		}
+		.squeeze {
+		    transform: scale(0.9);
+		}
+
+
+		.featured-section {
+		            max-width: 1200px;
+		            margin: 0 auto;
+                    padding: 20px 0; 
+					z-index: 2;
+		        }
+		        
+		        .featured-title {
+		           display: block;
+		               visibility: visible;
+		               color: #000; 
+		               font-size: 24px;
+		               font-weight: bold; 
+		               text-align: center;
+		               margin: 0 0 20px 0;
+		               border-bottom: 2px solid #000; /
+		        }
+		        
+		        .featured-title::after {
+		            content: '';
+		            position: absolute;
+		            bottom: 0;
+		            left: 50%;
+		            transform: translateX(-50%);
+		            width: 120px;
+		            height: 3px;
+		            background-color: #333;
+		        }
+		        
+		        .video-grid {
+		            display: grid;
+		            grid-template-columns: repeat(4, 1fr);
+					max-width: 1000px;
+					margin: 0 auto;
+		            gap: 15px;
+		        }
+		        
+		        .video-card {
+		            border-radius: 8px;
+		            overflow: hidden;
+		            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+		            transition: transform 0.3s ease;
+		            background-color: #fff;
+					aspect-ratio: 3/4;
+		        }
+		        
+		        .video-card:hover {
+		            transform: translateY(-5px) scale(1.02);
+					box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+		        }
+		        
+		        .video-thumbnail {
+		            position: relative;
+		            width: 100%;
+		            height: 0;
+		            padding-bottom: 150%;
+		            overflow: hidden;
+		        }
+		        
+		        .video-thumbnail img {
+		            position: absolute;
+		            top: 0;
+		            left: 0;
+		            width: 100%;
+		            height: 100%;
+		            object-fit: cover;
+					transition: transform 0.3s ease;
+		        }
+		        
+		        .video-title {
+		             padding: 15px;
+		                font-weight: 600; 
+		                text-align: center;
+		                font-size: 0.95em;
+		                line-height: 1.4;
+		                min-height: 60px; 
+		                display: flex;
+		                align-items: center;
+		                justify-content: center;
+		        }
+		        
+		        .play-icon {
+		            position: absolute;
+		            top: 50%;
+		            left: 50%;
+		            transform: translate(-50%, -50%);
+		            width: 50px;
+		            height: 50px;
+		            background-color: rgba(0,0,0,0.7);
+		            border-radius: 50%;
+		            display: flex;
+		            justify-content: center;
+		            align-items: center;
+		            opacity: 0;
+		            transition: opacity 0.3s ease;
+		        }
+		        
+		        .video-card:hover .play-icon {
+		            opacity: 1;
+		        }
+		        
+		        .play-icon::after {
+		            content: '';
+		            width: 0;
+		            height: 0;
+		            border-style: solid;
+		            border-width: 10px 0 10px 16px;
+		            border-color: transparent transparent transparent #fff;
+		            margin-left: 4px;
+		        }
+		
+		.toggle-btn {
+		  position: fixed;
+		  top: 10px;
+		  left: 10px;
+		  z-index: 100;
+		  cursor: pointer;
+		}
+		
+		.toggle-btn img {
+		  height: 40px;
+		}
+		
+		.sidebar {
+		  position: fixed;
+		  left: -300px; 
+		  top: -100px;
+		  width: 300px;
+		  height: 100%;
+		  background-color: white;
+		  color: #333;
+		  z-index: 1000;
+          border-radius: 20px;
+          transition: transform 0.4s ease-in-out, box-shadow 0.4s ease-in-out;
+		  box-shadow: 2px 0 5px rgba(0,0,0,0.2);
+		}
+		
+		.sidebar.active {
+		  left: 0;
+		}
+		
+		.close-btn {
+		  position: absolute;
+		  top: 10px;
+		  right: 10px;
+		  color: #333;
+		  font-size: 24px;
+		  cursor: pointer;
+		}
+		
+		.logo {
+		  text-align: center;
+		  padding: 20px 0;
+		  border-bottom: 1px solid #e0e0e0;
+		}
+		
+		.logo img {
+		  height: 50px;
+		}
+		
+		.main-nav ul {
+		  list-style: none;
+		  padding: 0;
+		  margin: 0;
+		}
+		
+		.nav-item a {
+		  display: flex;
+		  align-items: center;
+		  color: #333;
+		  text-decoration: none;
+		  padding: 15px 20px;
+		  border-bottom: 1px solid #e0e0e0;
+          border-radius: 4px;
+		}
+		
+		.nav-item a:hover {
+		  background-color: #f5f5f5;
+		}
+		
+		.nav-item i {
+		  margin-right: 10px;
+		  width: 20px;
+		  text-align: center;
+		}
+		
+		.dropdown-menu {
+		  background-color: #f5f5f5;
+		  display: none;
+		  padding-left: 0;
+		}
+		
+		.dropdown-menu li a {
+		  padding-left: 40px;
+		}
+		.search-box button {
+		  background: #e0e0e0; 
+		  color: #333; 
+		  border: none;
+		  padding: 10px 15px;
+		  border-radius: 0 4px 4px 0;
+		  cursor: pointer;
+		}
+		.search-box input {
+		  flex: 1;
+		  padding: 10px;
+		  border: 1px solid #e0e0e0;
+		  border-radius: 4px 0 0 4px;
+		}
+		.search-box button img {
+		  width: 16px;
+		  height: 16px;
+		}
+		.overlay {
+		  position: fixed;
+		  top: 0;
+		  left: 0;
+		  width: 100%;
+		  height: 100%;
+		  background-color: rgba(0,0,0,0.5);
+		  display: none;
+		  z-index: 999;
+		}
+
+
+		.gallery-container {
+		  position: relative;
+		  text-align: center;
+		    overflow-x: visible; 
+		}
+		.nav-btn {
+		  position: absolute;
+		  top: 50%;
+		  transform: translateY(-50%);
+		  border: none;
+		  background: transparent;
+		  font-size: 35px;
+		  color: white;
+		  cursor: pointer;
+		  opacity: 0.8;
+		  transition: opacity 0.3s;
+		  &.disabled {
+		    pointer-events: none;
+		    opacity: 0.3;
+		  }
+		}
+		
+		#prevBtn {
+		  left: 250px;
+		}
+		
+		#nextBtn {
+		  right: 15.625rem;
+		}
+		.gallery-items {
+		  display: flex;
+		  justify-content: center;
+		  gap: 20px;
+		  overflow-x: auto;
+		  white-space: nowrap;
+		}
+		
+		.gallery-item {
+		  position: relative;
+		  width: calc(1000px);
+		  height: auto;
+		  transition: transform 0.3s;
+		}
+		
+		.gallery-item.active {
+		  width: calc(1000px);
+		  z-index: 10;
+		}
+		
+		.gallery-item img {
+		  width: 100%;
+		  height: auto;
+		  border-radius: 20px;
+		  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+		}
+        @media (max-width: 768px) {
+          .gallery-item {
+            width: calc(100% - 40px);
+          }
+        
+          .gallery-items {
+            overflow-x: auto;
+          }
+        }
+		
+		.gallery-overlay {
+		  position: absolute;
+		  top: 0;
+		  left: 0;
+		  width: 100%;
+		  height: 100%;
+		  display: flex;
+		  flex-direction: column;
+		  justify-content: center;
+		  align-items: center;
+		  background: rgba(0, 0, 0, 0.7);
+		  opacity: 0;
+		  transition: opacity 0.3s;
+		}
+		
+		.gallery-overlay h2 {
+		  color: white;
+		  font-size: 24px;
+		  margin: 0;
+		}
+		
+		.gallery-overlay p {
+		  color: white;
+		  font-size: 16px;
+		  margin: 10px 0;
+		}
+		
+		.gallery-overlay button {
+		  padding: 8px 16px;
+		  background: #e74c3c;
+		  color: white;
+		  border: none;
+		  border-radius: 5px;
+		  cursor: pointer;
+		}
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            color: #333;
+        }
+		.carousel-container {
+		      position: relative;
+		      max-width: 1200px;
+		      margin: 40px auto;
+		      overflow: hidden;
+			  border-radius: 20px;
+		    }
+		    
+		    .carousel {
+		      display: flex;
+		      transition: transform 0.5s ease;
+		    }
+		    
+		    .slide {
+		      min-width: 100%;
+		      position: relative;
+		    }
+		    
+		    .slide img {
+		      width: 100%;
+		      height: auto;
+		    }
+		    
+		    .nav-button {
+		      position: absolute;
+		      top: 50%;
+		      transform: translateY(-50%);
+		      width: 40px;
+		      height: 40px;
+		      background-color: rgba(0,0,0,0.5);
+		      color: white;
+		      border: none;
+		      border-radius: 50%;
+		      font-size: 20px;
+		      cursor: pointer;
+		      z-index: 10;
+		    }
+		    
+		    .prev {
+		      left: 10px;
+		    }
+		    
+		    .next {
+		      right: 10px;
+		    }
+		    
+		    .indicators {
+		      display: flex;
+		      justify-content: center;
+		      margin-top: 10px;
+		    }
+		    
+		    .indicator {
+		      width: 12px;
+		      height: 12px;
+		      background-color: #ccc;
+		      border-radius: 50%;
+		      margin: 0 5px;
+		      cursor: pointer;
+		    }
+		    
+		    .indicator.active {
+		      background-color: #555;
+		    }
+        .feature-img {
+          margin: 15px auto;
+          max-width: 240px;
+          border-radius: 30px;
+          overflow: hidden;
+          box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+          transition: transform 0.3s;
+        }
+        .feature-img img {
+          width: 100%;
+          height: auto;
+          display: block;
+        }
+        .feature-box:hover .feature-img {
+          transform: scale(1.05);
+        }
+
+        .navbar {
+            background-color: darkgray;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 15px 20px;
+            position: relative;
+            z-index: 1000;
+            min-height: 60px;
+        }
+        .menu-toggle {
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+            margin-right: 20px;
+            display: none;
+            padding: 8px;
+            border-radius: 4px;
+            transition: background-color 0.3s ease;
+        }
+        .menu-toggle:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+        
+        .logo {
+            height: 40px;
+        }
+        
+        .nav-links {
+            display: flex;
+            margin-left: 30px;
+            flex-direction: row;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            padding: 8px 15px;
+            font-weight: bold;
+            transition: color 0.3s ease, background-color 0.3s ease;
+            border-radius: 4px;
+            white-space: nowrap;
+        }
+        .nav-links a:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            color: #fff;
+        }
+        .section {
+            padding: 80px 0;
+        }
+        
+        .section:nth-child(even) {
+            background-color: #fff;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 50px;
+            font-size: 2.5rem;
+            position: relative;
+            padding-bottom: 15px;
+        }
+        
+        .section-title:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background-color: #e74c3c;
+        }
+        
+        .row {
+            display: flex;
+            flex-wrap: wrap;
+            margin: 0 -15px;
+        }
+        
+        .col {
+            padding: 0 15px;
+            flex: 1;
+            min-width: 300px;
+        }
+        .feature-box {
+            text-align: center;
+            padding: 30px;
+            margin-bottom: 30px;
+            transition: transform 0.3s;
+        }
+		.featured-title {
+		    text-align: center;
+		    margin-bottom: 20px;
+		    margin-top: 40px; 
+		    font-size: 28px;
+		    position: relative;
+		    padding-bottom: 10px;
+		    color: #2e6e3d; 
+		}
+
+        
+        .feature-box h4 {
+            margin: 20px 0 10px;
+            font-size: 1.5rem;
+        }
+		.feature-box p {
+		    font-size: 1rem; 
+		}
+
+        
+        .feature-box:hover {
+            transform: translateY(-10px);
+        }
+        .pain-point {
+            background-color: #f9f9f9;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-left: 4px solid #e74c3c;
+        }
+        
+        .pain-point strong {
+            color: #e74c3c;
+        }
+
+        .advantage-card {
+            text-align: center;
+            padding: 40px 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            border-radius: 5px;
+            background-color: #fff;
+            height: 100%;
+            transition: transform 0.3s;
+        }
+        
+        .advantage-card:hover {
+            transform: translateY(-10px);
+        }
+        
+        .advantage-card h3 {
+            color: #e74c3c;
+            font-size: 3rem;
+            margin-bottom: 20px;
+        }
+        .budget-card {
+            text-align: center;
+            padding: 30px 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            border-radius: 5px;
+            background-color: #fff;
+            height: 100%;
+            transition: transform 0.3s;
+        }
+        
+        .budget-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .budget-card .card-header {
+            background-color: #e74c3c;
+            color: white;
+            padding: 15px;
+            border-radius: 5px 5px 0 0;
+            margin: -30px -20px 20px;
+        }
+        
+        .budget-card .card-body {
+            padding: 0 10px;
+        }
+        .team-member {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .team-member img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 15px;
+            border: 5px solid #fff;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        .testimonial {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 5px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+        
+        .testimonial p {
+            font-style: italic;
+            margin-bottom: 15px;
+        }  
+        .testimonial-author {
+            font-weight: bold;
+            color: #e74c3c;
+        }
+        .footer {
+            background-color: #222;
+            color: #fff;
+            padding: 50px 0 20px;
+            text-align: center;
+        }
+        
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 30px;
+        }
+        
+        .footer-links a {
+            color: #fff;
+            margin: 0 15px;
+            text-decoration: none;
+        }
+        
+        .footer-social {
+            margin-bottom: 30px;
+        }
+        
+        .footer-social a {
+            color: #fff;
+            margin: 0 10px;
+            font-size: 20px;
+        }
+        @media (max-width: 992px) {
+            .menu-toggle {
+                display: block;
+            }
+			
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .hero p {
+                font-size: 1.2rem;
+            }
+            
+            .col {
+                flex: 1 0 100%;
+                margin-bottom: 30px;
+            }
+        }
+	.section-title {
+	    text-align: center;
+	    color: #2e6e3d;
+	    font-size: 28px;
+	    margin-bottom: 40px;
+	}
+	
+	.cards-container {
+	    display: flex;
+	    justify-content: space-between;
+	    flex-wrap: wrap;
+	    gap: 20px;
+	    max-width: 1200px;
+	    margin: 0 auto;
+	}
+	
+	.feature-card {
+	    flex: 1;
+	    min-width: 300px;
+	    border: 1px solid #e0e0e0;
+	    border-radius: 8px;
+	    padding: 20px;
+	    display: flex;
+	    flex-direction: column;
+	    background-color: #fff;
+	    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+	}
+	
+	.card-image {
+	    text-align: center;
+	    margin-bottom: 20px;
+	}
+	
+	.card-image img {
+	    max-width: 100%;
+	    height: auto;
+	    max-height: 180px;
+	}
+	
+	.card-title {
+	    font-size: 20px;
+	    margin-bottom: 15px;
+		color: #000;
+	}
+	
+	.card-description {
+	    flex-grow: 1;
+	    font-size: 16px;
+	    color: #666;
+	    line-height: 1.6;
+	    margin-bottom: 20px;
+	}
+	
+	.card-button {
+	    display: block;
+	    text-align: center;
+	    background-color: #3bae51;
+	    color: white;
+	    text-decoration: none;
+	    padding: 10px;
+	    border-radius: 4px;
+	    transition: background-color 0.3s;
+	}
+	
+	.card-button:hover {
+	    background-color: #2d8a3e;
+	}
+	
+	@media (max-width: 768px) {
+	    .cards-container {
+	        flex-direction: column;
+	    }
+	    
+	    .feature-card {
+	        margin-bottom: 20px;
+	    }
+	}
+	.section-title {
+	    text-align: center;
+	    color: #2e6e3d;
+	    font-size: 28px;
+	    margin-bottom: 40px;
+	}
+	
+	.container {
+	    max-width: 1200px;
+	    margin: 0 auto;
+	    padding: 0 15px;
+	}
+	
+	.team-grid {
+	    display: grid;
+	    grid-template-columns: repeat(3, 1fr);
+	    gap: 25px;
+	}
+	
+	.team-member {
+	    background-color: #fff;
+	    border-radius: 10px;
+	    overflow: hidden;
+	    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+	    transition: transform 0.3s ease, box-shadow 0.3s ease;
+	}
+	
+	.team-member:hover {
+	    transform: translateY(-5px);
+	    box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+	}
+	
+	.member-photo {
+	    width: 100%;
+	    height: 200px;
+	    overflow: hidden;
+	}
+	
+	.member-photo img {
+	    width: 100%;
+	    height: 100%;
+	    object-fit: cover;
+	    transition: transform 0.5s ease;
+	}
+	
+	.team-member:hover .member-photo img {
+	    transform: scale(1.05);
+	}
+	
+	.member-info {
+	    padding: 20px;
+	}
+	
+	.member-info h4 {
+	    font-size: 18px;
+	    margin: 0 0 5px 0;
+	    color: #333;
+	}
+	
+	.role {
+	    display: inline-block;
+	    background-color: #e8f5e9;
+	    color: #2e6e3d;
+	    padding: 4px 10px;
+	    border-radius: 20px;
+	    font-size: 14px;
+	    margin-bottom: 12px;
+	}
+	
+	.bio {
+	    font-size: 14px;
+	    color: #666;
+	    line-height: 1.6;
+	    margin: 0;
+	}
+	@media (max-width: 992px) {
+	    .team-grid {
+	        grid-template-columns: repeat(2, 1fr);
+	    }
+	}
+	
+	@media (max-width: 576px) {
+	    .team-grid {
+	        grid-template-columns: 1fr;
+	    }
+	}
+    </style>
+</head>
+<body>
+
+
+    <nav class="navbar">
+        <div class="toggle-btn" id="toggleNav">
+          <img src="img/sidebar button.png" alt="Logo">
+        </div>
+	<div class="sidebar" id="sidebar">
+          <div class="close-btn" id="closeNav">&times;</div>
+    
+       <nav class="main-nav">
+                 <ul>
+                      <li class="nav-item"><a href="#" onclick="closeSidebar()"><i class="fa fa-home"></i> 首页</a></li>
+                      <li class="nav-item"><a href="#show" onclick="closeSidebar()"><i class="fa fa-eye"></i> 内容展示</a></li>
+                      <li class="nav-item"><a href="#intro" onclick="closeSidebar()"><i class="fa fa-info-circle"></i> 项目简介</a></li>
+                      <li class="nav-item"><a href="#market" onclick="closeSidebar()"><i class="fa fa-chart-line"></i> 市场分析</a></li>
+                      <li class="nav-item"><a href="#proposition" onclick="closeSidebar()"><i class="fa fa-lightbulb"></i> 命题分析</a></li>
+                      <li class="nav-item"><a href="#introduction" onclick="closeSidebar()"><i class="fa fa-project-diagram"></i> 项目介绍</a></li>
+                      <li class="nav-item"><a href="#team" onclick="closeSidebar()"><i class="fa fa-users"></i> 团队协作</a></li>
+                      <li class="nav-item"><a href="用户中心.html" onclick="closeSidebar()"><i class="fa fa-user"></i> 用户中心</a></li>
+					  <li class="nav-item"><a href="订购服务.html" onclick="closeSidebar()"><i class="fa fa-user"></i> 订购服务</a></li>
+                    </ul>
+          </nav>
+
+          <div class="search-box">
+            <input type="text" placeholder="Search Here...">
+            <button><img src="img/search-3-xxl_black.png" alt="搜索"></button>
+          </div>
+        </div>
+        <div class="overlay" id="overlay"></div>
+<ul id="nav">
+	        <li class="slide1"></li>
+	        <li class="slide2"></li>
+	        <li><a href="#show">内容展示</a></li>
+	        <li><a href="订购服务.html">订购服务</a></li>
+			<li><a href="#introduction">项目介绍</a></li>
+			<li><a href="#team">团队协作</a></li>
+			<li><a href="用户中心.html">用户中心</a></li>
+	    </ul>
+    </nav>
+</div>
+	    <div class="content-container"
+	    
+
+	        <h1 id="main-title">"Crossing" - an AI-activated video interview podcast platform.</h1>
+	       <br >活化美育教育平台
+	
+	<section class="featured-section">
+	        <h2 class="featured-title">内容展示</h2>
+	        <div class="video-grid">
+	            <a href="视频1.html?video=video/1.mp4" class="video-card">
+	                <div class="video-thumbnail">
+	                    <img src="img/a1.png" alt="当广告教父奥格威穿越">
+	                    <div class="play-icon"></div>
+	                </div>
+	                <div class="video-title">当广告教父奥格威穿越</div>
+	            </a>
+	            
+	            <a href="视频2.html?video=video/2.mp4" class="video-card">
+	                <div class="video-thumbnail">
+	                    <img src="img/a2.png" alt="AI还原历史瞬间：跨越百年见证真实时刻！">
+	                    <div class="play-icon"></div>
+	                </div>
+	                <div class="video-title">AI还原历史瞬间：跨越百年见证真实时刻！</div>
+	            </a>
+	            
+	            <a href="视频3.html?video=video3.mp4" class="video-card">
+	                <div class="video-thumbnail">
+	                    <img src="img/a3.jpg" alt="当 “铁血征服者” 的标签被撕开，一个搭建世界文明桥梁的忽必烈跃然眼前！">
+	                    <div class="play-icon"></div>
+	                </div>
+	                <div class="video-title">当 “铁血征服者” 的标签被撕开，一个搭建世界文明桥梁的忽必烈跃然眼前！</div>
+	            </a>
+				<a href="视频5.html?video=video5.mp4" class="video-card">
+				    <div class="video-thumbnail">
+				        <img src="img/a5.png" alt="AI技术复刻八大山人，朱达本尊">
+				        <div class="play-icon"></div>
+				    </div>
+				    <div class="video-title">AI技术复刻八大山人，朱达本尊</div>
+				</a>
+	            <a href="视频4.html?video=video5.mp4" class="video-card">
+	                <div class="video-thumbnail">
+	                    <img src="img/a4.jpg" alt="特邀爱因斯坦 “亲临”，与你畅聊牛顿出版社《相对论》的核心颠覆！">
+	                    <div class="play-icon"></div>
+	                </div>
+	                <div class="video-title">特邀爱因斯坦 “亲临”，与你畅聊牛顿出版社《相对论》的核心颠覆！</div>
+	            </a>
+	            
+	            <a href="视频6.html?video=video6.mp4" class="video-card">
+	                <div class="video-thumbnail">
+	                    <img src="img/a6.png" alt="想知道蜘蛛侠如何从皇后区高中生变身超级英雄吗">
+	                    <div class="play-icon"></div>
+	                </div>
+	                <div class="video-title">想知道蜘蛛侠如何从皇后区高中生变身超级英雄吗</div>
+	            </a>
+	            
+	            <a href="视频7.html?video=video7.mp4" class="video-card">
+	                <div class="video-thumbnail">
+	                    <img src="img/a7.png" alt="当 70 岁的苏格拉底站在雅典 500 人陪审团前，他抗辩的不是死刑判决，而是整个城邦对 “爱智” 的误解">
+	                    <div class="play-icon"></div>
+	                </div>
+	                <div class="video-title">当 70 岁的苏格拉底站在雅典 500 人陪审团前，他抗辩的不是死刑判决，而是整个城邦对 “爱智” 的误解</div>
+	            </a>
+	            
+	            <a href="视频8.html?video=video8.mp4" class="video-card">
+	                <div class="video-thumbnail">
+	                    <img src="img/a8.jpg" alt="用NotebookLM做内容，TTS克隆配音，数字人克隆虚拟主播，AI生成视频，对话式播客视频！">
+	                    <div class="play-icon"></div>
+	                </div>
+	                <div class="video-title">用NotebookLM做内容，TTS克隆配音，数字人克隆虚拟主播，AI生成视频，对话式播客视频！</div>
+	            </a>
+	        </div>
+	    </section>
+    <section id="intro" class="section">
+        <div class="container">
+            <h2 class="section-title">项目简介</h2>
+            <div class="row">
+                <div class="col">
+                    <div class="feature-box">
+                        <i class="fas fa-bullseye fa-3x" style="color:#e74c3c"></i>
+                        <h4>平台目标</h4>
+						<div class="feature-img">
+						<img src="img/goal-illustration.png" alt="示意图" loading="lazy">
+						</div>
+                        <p>旨在利用AI技术，为教育与知识分享领域提供创新的视频播客生成服务，解决传统内容制作效率低、成本高、门槛高的核心痛点。</p>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="feature-box">
+                        <i class="fas fa-microchip fa-3x" style="color:#e74c3c"></i>
+                        <h4>核心技术</h4>
+						<div class="feature-img">
+						<img src="img/tech-core.png" alt="示意图" loading="lazy">
+						</div>
+                        <p>基于自然语言处理（NLP）与深度学习，实现从文本到视频的自动化生产，包括AI生成脚本、虚拟主播驱动、智能剪辑与后期包装。</p>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="feature-box">
+                        <i class="fas fa-eye fa-3x" style="color:#e74c3c"></i>
+                        <h4>愿景蓝图</h4>
+						<div class="feature-img">
+						<img src="img/vision-diagram.png" alt="示意图" loading="lazy">
+						</div>
+                        <p>成为领先的AI内容创作赋能平台，让每一位知识创作者都能轻松、高效地将思想转化为富有吸引力的视频内容。</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+<div class="col">
+  <div class="gallery-container">
+    <button id="prevBtn" class="nav-btn">⬅️</button>
+    <button id="nextBtn" class="nav-btn">➡️</button>
+    <h2 class="section-title" id="market">市场分析</h2>
+    <div class="gallery-items">
+      <div class="gallery-item active">
+        <img src="img/market1.png" alt="主要内容" class="gallery-img" />
+      </div>
+      <div class="gallery-item">
+        <img src="img/market2.png" alt="图1" />
+      </div>
+      <div class="gallery-item">
+        <img src="img/market3.png" alt="图2" />
+      </div>
+      <div class="gallery-item">
+        <img src="img/market4.png" alt="图3" />
+      </div>
+	  <div class="gallery-item">
+	    <img src="img/market5.png" alt="图4" />
+	  </div>
+    </div>
+  </div>
+</div>
+    <h2 class="section-title" id = "proposition">命题分析</h2>
+    <div class="carousel-container">
+        <div class="carousel">
+          <div class="slide">
+            <img src="img/6 (2).png" alt="Varnamtown Podcast">
+          </div>
+          <div class="slide">
+            <img src="img/6 (1).png" alt="Adam Carolla Show">
+          </div>
+          <div class="slide">
+            <img src="img/6 (3).png" alt="Studio Podcast">
+          </div>
+        </div>
+        
+        <button class="nav-button prev">❮</button>
+        <button class="nav-button next">❯</button>
+        
+        <div class="indicators">
+          <span class="indicator active"></span>
+          <span class="indicator"></span>
+          <span class="indicator"></span>
+        </div>
+      </div>
+
+   <section id="core-sections" class="section">
+       <h2 class="section-title" id = "introduction">项目介绍</h2>
+       <div class="cards-container">
+           <div class="feature-card">
+               <div class="card-image">
+                   <img src="img/7.1.png" alt="项目优势">
+               </div>
+               <h3 class="card-title">项目优势</h3>
+               <p class="card-description">成本降低90%以上，效率提升百倍，零门槛操作让人人都能成为视频创作者。</p>
+			   <button onclick="window.location.href='项目优势.html'">
+				<span class="button-content">
+			
+				  <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+					<path d="M0 0H24V24H0z" fill="none"></path>
+					<path d="M12.001 4.529c2.349-2.109 5.979-2.039 8.242.228 2.262 2.268 2.34 5.88.236 8.236l-8.48 8.492-8.478-8.492c-2.104-2.356-2.025-5.974.236-8.236 2.265-2.264 5.888-2.34 8.244-.228z" fill="currentColor"></path>
+				  </svg>
+				  关于更多
+				</span>
+			  </button>
+			  
+           </div>
+           <div class="feature-card">
+               <div class="card-image">
+                   <img src="img/7.2.png" alt="实现成效">
+               </div>
+               <h3 class="card-title">实现成效</h3>
+               <p class="card-description">帮助教育机构创新教学方式，让内容创作者更专注于内容本身，显著提升学习效果。</p>
+               <button onclick="window.location.href='实现成效.html'">
+				<span class="button-content">
+				  <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+					<path d="M0 0H24V24H0z" fill="none"></path>
+					<path d="M12.001 4.529c2.349-2.109 5.979-2.039 8.242.228 2.262 2.268 2.34 5.88.236 8.236l-8.48 8.492-8.478-8.492c-2.104-2.356-2.025-5.974.236-8.236 2.265-2.264 5.888-2.34 8.244-.228z" fill="currentColor"></path>
+				  </svg>
+				  查看详情
+				</span>
+			  </button>
+           </div>
+           <div class="feature-card">
+               <div class="card-image">
+                   <img src="img/7.3.png" alt="财务预算">
+               </div>
+               <h3 class="card-title">财务预算</h3>
+               <p class="card-description">初期研发投入，基础订阅+增值服务的收入模型，预计第二年实现盈亏平衡。</p>
+			   <button onclick="window.location.href='财务预算.html'">
+				<span class="button-content">
+				  <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+					<path d="M0 0H24V24H0z" fill="none"></path>
+					<path d="M12.001 4.529c2.349-2.109 5.979-2.039 8.242.228 2.262 2.268 2.34 5.88.236 8.236l-8.48 8.492-8.478-8.492c-2.104-2.356-2.025-5.974.236-8.236 2.265-2.264 5.888-2.34 8.244-.228z" fill="currentColor"></path>
+				  </svg>
+				  查看更多
+				</span>
+			  </button>
+			  <button>	
+           </div>
+       </div>
+   </section>
+    <section id="team" class="section">
+        <div class="container">
+            <h2 class="section-title" id = "team">团队协作</h2>
+            <div class="team-grid">
+                <div class="team-member">
+                    <div class="member-photo">
+                        <img src="img/8.1.png" alt="邹思源">
+                    </div>
+                    <div class="member-info">
+                        <h4>邹思源</h4>
+                        <span class="role">项目负责人</span>
+                        <p class="bio">负责端到端的项目全流程管理，协调跨职能团队以确保项目交付成果。<br />省级三等奖；蓝桥杯竞赛：省级三等奖；"互联网+"竞赛：省级铜奖</p>
+                    </div>
+                </div>
+                
+                <div class="team-member">
+                    <div class="member-photo">
+                        <img src="img/8.2.png" alt="成员B">
+                    </div>
+                    <div class="member-info">
+                        <h4>张子玥</h4>
+                        <span class="role">市场预测与分析</span>
+                        <p class="bio">负责项目的全流程管理，协调跨职能团队以确保交付成果。<br />发表了相关SCI论文。
+						<br />获得“挑战杯”竞赛三等奖。<br />入选校园十大创业团队</p>
+                    </div>
+                </div>
+                
+                <div class="team-member">
+                    <div class="member-photo">
+                        <img src="img/8.3.png" alt="成员C">
+                    </div>
+                    <div class="member-info">
+                        <h4>邓松</h4>
+                        <span class="role">为该项目设计技术解决方案和原型</span>
+                        <p class="bio">发表1篇相关论文。<br />华灿杯：三等奖。<br />入选校园十大创业团队</p>
+                    </div>
+                </div>
+                
+                <div class="team-member">
+                    <div class="member-photo">
+                        <img src="img/9.1.png" alt="成员D">
+                    </div>
+                    <div class="member-info">
+                        <h4>刘奕琪</h4>
+                        <span class="role">视频剪辑与后期制作</span>
+                        <p class="bio">为该项目设计技术解决方案和原型<br />  大广广告竞赛：省级二等奖  <br />中国好创意奖：一等奖</p>
+                    </div>
+                </div>
+                
+                <div class="team-member">
+                    <div class="member-photo">
+                        <img src="img/9.2.png" alt="成员E">
+                    </div>
+                    <div class="member-info">
+                        <h4>熊厚然</h4>
+                        <span class="role">产品开发人员 </span>
+                        <p class="bio">为该项目设计技术解决方案和原型<br />  熟练掌握 Python 和 TensorFlow，完成过机器学习和数据挖掘课程。</p>
+                    </div>
+                </div>
+                
+                <div class="team-member">
+                    <div class="member-photo">
+                        <img src="img/9.3.png" alt = "成员F">
+                    </div>
+                    <div class="member-info">
+                        <h4>任李杨</h4>
+                        <span class="role">技术总监  </span>
+                        <p class="bio">为该项目设计技术解决方案和原型。<br />  发表1篇相关论文。<br />  蓝桥杯竞赛：省级三等奖</p>
+                    </div>
+                </div>
+                
+                <div class="team-member">
+                    <div class="member-photo">
+                        <img src="img/9.4.png" alt="成员G">
+                    </div>
+                    <div class="member-info">
+                        <h4>陈定曜</h4>
+                        <span class="role">研发工程师 </span>
+                        <p class="bio">为该项目设计技术解决方案和原型。<br />  在产品中对视频片段进行操作，以实现平台内部的视频工作流。</p>
+                    </div>
+                </div>
+                
+                <div class="team-member">
+                    <div class="member-photo">
+                        <img src="img/9.5.png" alt="成员H">
+                    </div>
+                    <div class="member-info">
+                        <h4>陈俊豪</h4>
+                        <span class="role">负责前端网页开发</span>
+                        <p class="bio">领导响应式用户界面设计的开发工作。<br />负责前端框架技术的选择与实施。</p>
+                    </div>
+                </div>
+                
+                <div class="team-member">
+                    <div class="member-photo">
+                        <img src="img/9.6.png" alt="成员I">
+                    </div>
+                    <div class="member-info">
+                        <h4>吴娇娇</h4>
+                        <span class="role">项目财务分析与风险管理评估</span>
+                        <p class="bio">参与发表1篇相关论文。<br />  参加“启云杯”全国大学生会计与财务管理专业能力竞赛。</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-links">
+                <a href="#">首页</a>
+                <a href="#intro">项目简介</a>
+                <a href="#market">市场分析</a>
+                <a href="#proposition">命题分析</a>
+                <a href="#advantages">项目优势</a>
+                <a href="#results">实现成效</a>
+                <a href="#budget">财务预算</a>
+                <a href="#team">团队协作</a>
+            </div>
+            
+            <div class="footer-social">
+                <a href="#"><i class="fab fa-weixin"></i></a>
+                <a href="#"><i class="fab fa-weibo"></i></a>
+                <a href="#"><i class="fab fa-bilibili"></i></a>
+                <a href="#"><i class="fab fa-youtube"></i></a>
+            </div>
+            
+            <p>&copy; 2025 “穿越时空”—AI视频播客活化美育教学平台.</p>
+        </div>
+    </footer>
+
+  <script>
+		
+    document.addEventListener('DOMContentLoaded', function() {
+      var galleryItems = document.querySelectorAll('.gallery-item');
+      var currentIndex = 0;
+      galleryItems.forEach(function(item, index) {
+        if (index !== currentIndex) {
+          item.style.display = 'none';
+        }
+      });
+      document.getElementById('prevBtn').addEventListener('click', function() {
+        galleryItems[currentIndex].style.display = 'none';
+        currentIndex = (currentIndex > 0) ? currentIndex - 1 : galleryItems.length - 1;
+        galleryItems[currentIndex].style.display = 'block';
+      });
+      document.getElementById('nextBtn').addEventListener('click', function() {
+        galleryItems[currentIndex].style.display = 'none';
+        currentIndex = (currentIndex + 1) % galleryItems.length;
+        galleryItems[currentIndex].style.display = 'block';
+      });
+    });
+	    const carousel = document.querySelector('.carousel');
+	    const slides = document.querySelectorAll('.slide');
+	    const prevButton = document.querySelector('.prev');
+	    const nextButton = document.querySelector('.next');
+	    const indicators = document.querySelectorAll('.indicator');
+	    
+	    let currentIndex = 0;
+	    const slideCount = slides.length;
+	    
+	    function updateCarousel() {
+	      carousel.style.transform = `translateX(-${currentIndex * 100}%)`;
+	      indicators.forEach((indicator, index) => {
+	        indicator.classList.toggle('active', index === currentIndex);
+	      });
+	    }
+	    
+	    prevButton.addEventListener('click', () => {
+	      currentIndex = (currentIndex - 1 + slideCount) % slideCount;
+	      updateCarousel();
+	    });
+	    
+	    nextButton.addEventListener('click', () => {
+	      currentIndex = (currentIndex + 1) % slideCount;
+	      updateCarousel();
+	    });
+	    
+	    indicators.forEach((indicator, index) => {
+	      indicator.addEventListener('click', () => {
+	        currentIndex = index;
+	        updateCarousel();
+	      });
+	    });
+	    setInterval(() => {
+	      currentIndex = (currentIndex + 1) % slideCount;
+	      updateCarousel();
+	    }, 5000);
+		document.addEventListener('DOMContentLoaded', function() {
+		  const toggleBtn = document.getElementById('toggleNav');
+		  const closeBtn = document.getElementById('closeNav');
+		  const sidebar = document.getElementById('sidebar');
+		  const overlay = document.getElementById('overlay');
+		  const dropdowns = document.querySelectorAll('.dropdown');
+		  toggleBtn.addEventListener('click', function() {
+		    sidebar.classList.add('active');
+		    overlay.style.display = 'block';
+		  });
+		  closeBtn.addEventListener('click', function() {
+		    sidebar.classList.remove('active');
+		    overlay.style.display = 'none';
+		  });
+		  overlay.addEventListener('click', function() {
+		    sidebar.classList.remove('active');
+		    overlay.style.display = 'none';
+		  });
+		  dropdowns.forEach(dropdown => {
+		    const link = dropdown.querySelector('a');
+		    const submenu = dropdown.querySelector('.dropdown-menu');
+		    
+		    link.addEventListener('click', function(e) {
+		      e.preventDefault();
+		      if(submenu.style.display === 'block') {
+		        submenu.style.display = 'none';
+		      } else {
+		        submenu.style.display = 'block';
+		      }
+		    });
+		  });
+		});
+		function closeSidebar() {
+		  const sidebar = document.getElementById('sidebar');
+		  const overlay = document.getElementById('overlay');
+		  sidebar.classList.remove('active');
+		  overlay.style.display = 'none';
+		}
+		document.addEventListener('DOMContentLoaded', function() {
+		    const text = "探索跨时代的数字化美育体验";
+		    const typingText = document.querySelector('.typing-text');
+		    
+		    if (typingText) {
+		        typingText.textContent = text;
+		    }
+		});
+		  $(document).ready(function() {
+		             $('ul#nav li a').click(function(event) {
+		                 event.preventDefault(); 
+		                 console.log('你点击了：', $(this).text());
+		             });
+		             $('ul#nav li a').hover(
+		                 function() {
+		                     $('.slide1').css({
+		                         backgroundColor: 'orange', 
+		                         transform: 'scale(1.2)' 
+		                     });
+		                 },
+		                 function() {
+		                     $('.slide1').css({
+		                         backgroundColor: 'rgb(170, 190, 255)', 
+		                         transform: 'scale(1)'
+		                     });
+		                 }
+		             );
+		             $('ul#nav li a').hover(
+		                 function() {
+		                     $('.slide2').css({
+		                         opacity: 1, 
+		                         transform: 'scale(1.2)'
+		                     });
+		                 },
+		                 function() {
+		                     $('.slide2').css({
+		                         opacity: 0, 
+		                         transform: 'scale(1)'
+		                     });
+		                 }
+		             );
+		         });
+    </script>
+<script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>财务预算</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #6e45e2;
+            --secondary: #4481eb;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --success: #38b000;
+            --warning: #ffb703;
+            --danger: #d90429;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', 'PingFang SC', sans-serif;
+        }
+
+        body {
+            background-color: #0a0a14;
+            color: white;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 2rem 0;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        header::before {
+            content: "";
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 10%, transparent 40%);
+            animation: rotate 25s linear infinite;
+            z-index: 1;
+        }
+
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        header .container {
+            position: relative;
+            z-index: 2;
+            display: flex;
+            align-items: center;
+        }
+
+        .header-logo {
+            width: 60px;
+            height: 60px;
+            background-color: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+        }
+
+        .header-logo img {
+            width: 40px;
+            height: 40px;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+
+        h2 {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            color: var(--primary);
+            position: relative;
+            display: inline-block;
+        }
+
+        h2::after {
+            content: "";
+            position: absolute;
+            left: 0;
+            bottom: -10px;
+            height: 4px;
+            width: 60%;
+            background: linear-gradient(to right, var(--primary), transparent);
+        }
+
+        .main-content {
+            position: relative;
+            padding-bottom: 100px;
+            overflow: hidden;
+        }
+
+        .circle-container {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            position: relative;
+            margin-top: 50px;
+            z-index: 2;
+        }
+
+        .circle {
+            width: 300px;
+            height: 300px;
+            background: rgba(110, 69, 226, 0.2);
+            border-radius: 50%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 30px;
+            text-align: center;
+            position: relative;
+            margin-bottom: 30px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .circle:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(110, 69, 226, 0.3);
+        }
+
+        .circle h3 {
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+            color: white;
+        }
+
+        .circle p {
+            font-size: 1rem;
+            line-height: 1.5;
+        }
+
+        .tree-container {
+            position: relative;
+            text-align: center;
+            margin-top: 50px;
+            margin-bottom: 100px;
+            z-index: 2;
+        }
+
+        .tree-title {
+            font-size: 2.5rem;
+            color: white;
+            margin-bottom: 50px;
+        }
+
+        .tree-branches {
+            position: relative;
+            height: 400px;
+        }
+
+        .tree-branch {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-image: url('path-to-branch.svg');
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: contain;
+        }
+
+        .section {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .section-icon {
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: rgba(110, 69, 226, 0.3);
+            color: white;
+            border-radius: 50%;
+            margin-right: 1rem;
+            font-size: 1.5rem;
+        }
+
+        .chart-container {
+            width: 100%;
+            margin: 1.5rem 0;
+            border-radius: 10px;
+            overflow: hidden;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 1rem;
+        }
+
+        .risk-opportunity-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+
+        @media (max-width: 768px) {
+            .risk-opportunity-container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .risk-card, 
+        .opportunity-card {
+            padding: 1.2rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .risk-card {
+            border-left: 4px solid var(--danger);
+        }
+
+        .opportunity-card {
+            border-left: 4px solid var(--success);
+        }
+
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+            color: white;
+        }
+
+        .data-table th, 
+        .data-table td {
+            padding: 0.75rem 1rem;
+            text-align: left;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .data-table th {
+            background-color: rgba(255, 255, 255, 0.05);
+            font-weight: 600;
+        }
+
+        .data-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            border-left: 4px solid var(--primary);
+        }
+
+        .data-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .decision-container {
+            position: relative;
+            margin-top: 50px;
+            padding: 30px;
+            border-radius: 15px;
+            background: rgba(110, 69, 226, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .decision-circle {
+            width: 150px;
+            height: 150px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
+        }
+
+        .decision-circle h3 {
+            color: white;
+            font-size: 1.5rem;
+        }
+
+        .decision-options {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+        }
+
+        .decision-option {
+            width: 48%;
+            padding: 20px;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .number-badge {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--primary);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+
+        .method-tag {
+            color: var(--primary);
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .waves {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 100px;
+            background-image: url('path-to-waves.svg');
+            background-size: cover;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .animate-fade {
+            opacity: 0;
+            animation: fadeIn 0.8s forwards;
+        }
+
+        .delay-1 { animation-delay: 0.2s; }
+        .delay-2 { animation-delay: 0.4s; }
+        .delay-3 { animation-delay: 0.6s; }
+        .delay-4 { animation-delay: 0.8s; }
+        .delay-5 { animation-delay: 1s; }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-logo">
+                <i class="fas fa-robot" style="color: white; font-size: 24px;"></i>
+            </div>
+            <h1>财务效益预测</h1>
+        </div>
+    </header>
+
+    <main class="container">
+        <div class="main-content">
+            <div class="circle-container">
+                <div class="circle animate-fade delay-1">
+                    <h3>财务可行性</h3>
+                    <p>前两年累计亏损160万元，第3年盈利198万元，3年累计净利润38万元，具备强商业潜力</p>
+                </div>
+                
+                <div class="circle animate-fade delay-2">
+                    <h3>核心策略</h3>
+                    <p>(1) 加速用户增长<br>
+                    (2) 控制成本<br>
+                    (3) 优化结构</p>
+                </div>
+                
+                <div class="circle animate-fade delay-3">
+                    <h3>风险应对</h3>
+                    <p>预留300万元流动资金，申请"文化科技融合"补贴（覆盖10%-15%成本）</p>
+                </div>
+            </div>
+            <section id="risk-opportunity" class="section animate-fade delay-1">
+                <div class="section-header">
+                    <div class="section-icon"><i class="fas fa-balance-scale"></i></div>
+                    <h2>风险与机会分析</h2>
+                </div>
+                
+                <div class="risk-card">
+                    <h3>(1) 核心风险</h3>
+                    <p>会员增长不及预期（如获客成本飙升、竞品分流）应对：提前布局私域流量（如社群运营）、强化内容差异化（深耕"古人访谈"独家场景）。</p>
+                </div>
+                
+                <div class="opportunity-card">
+                    <h3>(2) 最大机会</h3>
+                    <p>会员规模超预期增长（如KOL合作、教育机构采购）策略：2026-2027年聚焦用户拉新，用"免费试看+会员专属内容"破圈，放大规模效应。</p>
+                </div>
+                
+                <div class="risk-card">
+                    <h3>(3) 成本优化关键</h3>
+                    <p>大模型自研与场景复用（2027年部分自研已验证）动作：加速技术沉淀，2027年后将"大模型调用成本占比"从20%（100/500）压降至15%以内</p>
+                </div>
+                
+                <div class="decision-container">
+                    <div class="decision-circle">
+                        <h3>决策建议</h3>
+                    </div>
+                    
+                    <div class="decision-options">
+                        <div class="decision-option">
+                            <span class="method-tag">方法一</span>
+                            <div style="display: flex; align-items: center;">
+                                <div class="number-badge">01</div>
+                                <div>
+                                    <p>(1) 短期（2025-2026）：优先保障会员增长，适度控制销售费用（如精准投放），同时验证模型复用率（降低场景建模成本）。</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="decision-option">
+                            <span class="method-tag">方法二</span>
+                            <div style="display: flex; align-items: center;">
+                                <div class="number-badge">02</div>
+                                <div>
+                                    <p>(2) 中期（2027+）：巩固会员基本盘，深化技术自研降本，用规模效应覆盖知识付费、硬件生态的协同成本，持续放大净利率（2027年39.6%）</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <section id="key-indicators" class="section animate-fade delay-2">
+                <div class="section-header">
+                    <div class="section-icon"><i class="fas fa-chart-bar"></i></div>
+                    <h2>关键财务指标预测</h2>
+                </div>
+                
+                <div class="risk-opportunity-container">
+                    <div>
+                        <div class="number-badge">01</div>
+                        <h3>盈利能力</h3>
+                        <p>(1) 毛利率从2025年的0%提升至2027年的50%，速度增长较快，主因成本下降+收入规模效应，说明项目的盈利能力比较强。</p>
+                        <p>(2) 净利率第3年预计可达39.6%，超教育行业平均水平。</p>
+                    </div>
+                    
+                    <div>
+                        <div class="number-badge">02</div>
+                        <h3>偿债能力</h3>
+                        <p>(1) 盈利趋势（间接支撑偿债）</p>
+                        <p>2025-2027年净利润从-123万→-37万→198万，2027年扭亏为盈且盈利快速放大，若未来持续盈利，利润可用于偿还债务。</p>
+                        <p>(2) 现金流关联（假设收入现金回收好）。</p>
+                    </div>
+                </div>
+            </section>
+            <section id="profit-cashflow" class="section animate-fade delay-3">
+                <div class="section-header">
+                    <div class="section-icon"><i class="fas fa-chart-line"></i></div>
+                    <h2>利润与现金流预测</h2>
+                </div>
+                
+                <div style="display: flex; flex-wrap: wrap;">
+                    <div style="flex: 1; min-width: 300px;">
+                        <h3>现金流预测（单位：万元）</h3>
+                        <ul style="list-style: none; margin-top: 20px;">
+                            <li style="margin-bottom: 15px;">
+                                <p>(1) 2025年：初始投资200万元，净流出123万元（收入100万-成本200万-费用23万）；</p>
+                            </li>
+                            <li style="margin-bottom: 15px;">
+                                <p>(2) 2026年：收入200万，成本+费用237万，净流出37万元；</p>
+                            </li>
+                            <li>
+                                <p>(3) 2027年：收入500万，成本+费用302万，净流入198万元，累计盈利转正。</p>
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <div style="flex: 1; min-width: 300px; padding-left: 20px;">
+                        <div class="chart-container">
+                            <img src="img/3.3.png" alt="利润表核心数据图表" style="width: 100%;">
+                        </div>
+                        <p>总之，虽然项目初期现金流净流出了123万元，第二年也净流出37万元，但是已经第三年便能实现累计盈利为正，利润非常可观。</p>
+                    </div>
+                </div>
+            </section>
+            <section id="assumptions" class="section animate-fade delay-4">
+                <div class="section-header">
+                    <div class="section-icon"><i class="fas fa-lightbulb"></i></div>
+                    <h2>预测前提与假设</h2>
+                </div>
+                
+                <div class="risk-opportunity-container">
+                    <div>
+                        <div style="display: flex; align-items: flex-start;">
+                            <div style="font-size: 5rem; color: var(--primary); margin-right: 20px; line-height: 1;">1</div>
+                            <div>
+                                <h3>时间周期:</h3>
+                                <p>2025-2027年(3年短期预测)，基于行业增速及项目落地节奏。</p>
+                                <p style="margin-top: 10px;">总之，2025 - 2027年总成本从200万元增至250万元，三年合计650万元，增速较缓，整体成本管控良好，以期各成本项协同优化，实现后续降本。</p>
+                            </div>
+                        </div>
+                        
+                        <div class="chart-container">
+                            <img src="img/3.1.png" alt="分年度成本预测图表" style="width: 100%;">
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <div style="display: flex; align-items: flex-start;">
+                            <div style="font-size: 5rem; color: #ffb703; margin-right: 20px; line-height: 1;">2</div>
+                            <div>
+                                <h3>核心假设:</h3>
+                                <p>(1)会员订阅用户第1年5千,第2-3年增速到150%</p>
+                                <p>(2)硬件销售与厂商分成比例7:3(项目方占70%)。</p>
+                                <p style="margin-top: 10px;">2025-2027年总收入从100万→200万→500万，合计800万元，年均增速123.6%。核心逻辑是"用户增长 + 业务联动"：会员订阅拉新扩量，知识付费按需用户价值，硬件级定销售延伸变现。</p>
+                            </div>
+                        </div>
+                        
+                        <div class="chart-container">
+                            <img src="img/3.2.png" alt="分年度收入预测图表" style="width: 100%;">
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const sections = document.querySelectorAll('.section');
+            
+            const observerOptions = {
+                threshold: 0.1
+            };
+            
+            const observer = new IntersectionObserver(function(entries) {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, observerOptions);
+            
+            sections.forEach(section => {
+                observer.observe(section);
+            });
+        });
+    </script>
+</body>
+</html>
